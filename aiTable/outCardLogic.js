@@ -11,7 +11,7 @@ const MaJiangDef = {
  */
 class outCardLogic {
     constructor() {
-        this.genTable = GenTable.Instance(); 
+        this.genTable = GenTable.Instance();
     };
 
     init(){
@@ -24,18 +24,18 @@ class outCardLogic {
         var max = 0;
         var input = [];
         var guiCard = [];
-      
-        _.forEach(originalCards, function(e){  
+
+        _.forEach(originalCards, function(e){
           if (cardConfig[e]) {
             input.push(cardConfig[e].private_point);
           }
         });
-        _.forEach(originalGuiCard, function(e){  
+        _.forEach(originalGuiCard, function(e){
           if (cardConfig[e]) {
             guiCard.push(cardConfig[e].private_point);
           }
         });
-      
+
         for (var i = 0; i < input.length; i++)
         {
           var c = input[i];
@@ -58,11 +58,11 @@ class outCardLogic {
           }
         //   cache[c] = 1;
         // }
-      
+
         // 再转换原来的
-        return originalRet;
+        return { score: +max, pai: +originalRet };
     };
-      
+
     calc (input, guiCard){
         var cards = [];
         for (var i = 0; i < MaJiangDef.MAX_NUM; i++)
@@ -85,13 +85,13 @@ class outCardLogic {
         // {
         //   return ting.size() * 10;
         // }
-      
+
         var wanKey = 0;
         var tongKey = 0;
         var tiaoKey = 0;
         var fengKey = 0;
         var jianKey = 0;
-      
+
         for (let i = cardConfig[31].private_point; i <= cardConfig[39].private_point; i++)
         {
           var num = cards[i - 1];
@@ -118,19 +118,19 @@ class outCardLogic {
           jianKey = jianKey * 10 + num;
         }
         var tmp = [];
-      
+
         var wanAITableInfo = this.genTable.AITable[wanKey.toString()];
         tmp.push(wanAITableInfo);
-      
+
         var tongAITableInfo = this.genTable.AITable[tongKey.toString()];
         tmp.push(tongAITableInfo);
-      
+
         var tiaoAITableInfo = this.genTable.AITable[tiaoKey.toString()];
         tmp.push(tiaoAITableInfo);
-      
+
         var fengAITableInfo = this.genTable.AITableFeng[fengKey.toString()];
         tmp.push(fengAITableInfo);
-      
+
         var jianAITableInfo = this.genTable.AITableJian[jianKey.toString()];
         tmp.push(jianAITableInfo);
         var ret = [];
@@ -139,7 +139,7 @@ class outCardLogic {
 
         return d ? d.toString() : null;
     };
-      
+
     calcAITableInfo (ret,  tmp,  index,  jiang, cur){
         if (index >= tmp.length)
         {
@@ -153,7 +153,7 @@ class outCardLogic {
         if (!aiTableInfos) {
           return;
         }
-      
+
         for (var i = 0; i < aiTableInfos.length; i++) {
           var aiTableInfo = aiTableInfos[i];
           //console.log("index:%j, i:%j, aiTableInfo:%j", index, i, aiTableInfo);
